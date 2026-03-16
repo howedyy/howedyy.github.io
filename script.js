@@ -1,5 +1,24 @@
+// Theme Initialization
+const currentTheme = localStorage.getItem('theme') || 'dark';
+if (currentTheme === 'light') {
+  document.body.classList.add('light-theme');
+}
+
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Theme Toggle Logic
+  const themeToggles = document.querySelectorAll('.theme-toggle');
+  themeToggles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      if (document.body.classList.contains('light-theme')) {
+        localStorage.setItem('theme', 'light');
+      } else {
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  });
 
   // Navbar scroll effect
   const navbar = document.getElementById('navbar');
