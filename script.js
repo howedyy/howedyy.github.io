@@ -110,5 +110,46 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Form submission goes via Formspree native action now.
+  
+  // Lightbox Functionality
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const projectImages = document.querySelectorAll('.project-img');
 
+  if (lightbox && projectImages.length > 0) {
+    projectImages.forEach(imgContainer => {
+      imgContainer.addEventListener('click', () => {
+        const img = imgContainer.querySelector('img');
+        lightbox.style.display = 'block';
+        lightboxImg.src = img.src;
+        lightboxCaption.textContent = img.alt;
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+      });
+    });
+
+    const closeLightbox = document.querySelector('.lightbox-close');
+    if (closeLightbox) {
+      closeLightbox.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+      });
+    }
+
+    // Close on click outside image
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.style.display === 'block') {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
 });
