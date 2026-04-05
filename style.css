@@ -198,21 +198,27 @@ section {
 /* ========== Navbar ========== */
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 1.5rem; /* Floating from top */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%; /* More less width */
+  max-width: 1100px;
   z-index: 1000;
   background: var(--glass-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--glass-border);
+  border: 1px solid var(--glass-border);
+  border-radius: 50px; /* Pill shape for impressive look */
   transition: all var(--transition-normal);
-  padding: 1.2rem 0;
+  padding: 0.6rem 0;
 }
 
 .navbar.scrolled {
-  padding: 1rem 0;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  top: 0.5rem;
+  width: 85%;
+  padding: 0.5rem 0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+  border-color: rgba(0, 212, 255, 0.2);
 }
 
 .nav-container {
@@ -221,7 +227,7 @@ section {
   align-items: center;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 }
 
 .nav-logo a {
@@ -230,11 +236,11 @@ section {
 }
 
 .nav-logo-img {
-  height: 100px;
+  height: 48px;
   width: auto;
   border-radius: 6px;
   object-fit: contain;
-  opacity: 0.85;
+  opacity: 0.95;
   transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
@@ -253,8 +259,8 @@ body.light-theme .nav-logo-img {
   border: 1px solid var(--glass-border);
   color: var(--text-main);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -283,13 +289,13 @@ body.light-theme .theme-toggle .moon-icon {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
+  gap: 1.8rem;
 }
 
 .nav-link {
@@ -1039,75 +1045,219 @@ body.light-theme .theme-toggle .moon-icon {
 }
 
 /* ========== Lightbox Modal ========== */
+/* ========== Lightbox Modal (Premium Gallery) ========== */
 .lightbox {
   display: none;
   position: fixed;
-  z-index: 2000;
-  padding-top: 50px;
+  z-index: 2100;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(10, 15, 44, 0.95);
-  backdrop-filter: blur(10px);
+  overflow: hidden;
+  background-color: rgba(6, 10, 28, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transform: scale(1.1);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox.active {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.lightbox-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.lightbox-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.lightbox-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 70vh;
 }
 
 .lightbox-content {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 1000px;
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
   border-radius: 12px;
-  box-shadow: 0 0 50px rgba(0, 212, 255, 0.2);
-  animation: zoomIn 0.3s ease;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px var(--accent-glow);
+  border: 1px solid var(--glass-border);
+  background: var(--bg-secondary);
+  animation: slideUp 0.5s ease forwards;
 }
 
-@keyframes zoomIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .lightbox-caption {
-  margin: auto;
-  display: block;
-  width: 80%;
-  max-width: 1000px;
-  text-align: center;
-  color: var(--text-main);
-  padding: 20px 0;
   font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
+  color: var(--text-main);
+  margin-top: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+.lightbox-counter {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .lightbox-close {
   position: absolute;
-  top: 25px;
-  right: 35px;
-  color: #f1f1f1;
-  font-size: 40px;
-  font-weight: bold;
-  transition: 0.3s;
+  top: 30px;
+  right: 30px;
+  color: #fff;
+  font-size: 44px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  z-index: 2001;
+  transition: all 0.3s ease;
+  z-index: 2200;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  line-height: 1;
 }
 
-.lightbox-close:hover,
-.lightbox-close:focus {
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: var(--accent-color);
-  text-decoration: none;
-  cursor: pointer;
+  transform: rotate(90deg);
 }
 
-@media only screen and (max-width: 700px) {
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2200;
+}
+
+.lightbox-nav:hover {
+  background: var(--accent-color);
+  color: var(--btn-text);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.prev-btn { left: 40px; }
+.next-btn { right: 40px; }
+
+.lightbox-thumbnails {
+  display: flex;
+  gap: 12px;
+  margin-top: 3rem;
+  padding: 10px;
+  max-width: 90vw;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.lightbox-thumbnails::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.thumb-item {
+  width: 80px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  opacity: 0.5;
+}
+
+.thumb-item:hover {
+  opacity: 0.8;
+  transform: translateY(-4px);
+}
+
+.thumb-item.active {
+  border-color: var(--accent-color);
+  opacity: 1;
+  box-shadow: 0 0 15px var(--accent-glow);
+  transform: translateY(-4px);
+}
+
+.thumb-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .lightbox-container {
+    padding: 20px;
+  }
+  
+  .lightbox-nav {
+    width: 44px;
+    height: 44px;
+    bottom: 120px;
+    top: auto;
+    transform: none;
+  }
+  
+  .prev-btn { left: 25%; }
+  .next-btn { right: 25%; }
+  
   .lightbox-content {
-    width: 100%;
+    max-height: 50vh;
+  }
+
+  .lightbox-thumbnails {
+    margin-top: 4rem;
+  }
+
+  .thumb-item {
+    width: 60px;
+    height: 40px;
   }
 }
